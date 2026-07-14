@@ -2,6 +2,7 @@
 
 import { OrbitControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
+import * as THREE from "three";
 
 export default function SceneCanvas() {
   return (
@@ -9,6 +10,10 @@ export default function SceneCanvas() {
       shadows
       camera={{ position: [3, 3, 5], fov: 50 }}
       className="h-full w-full"
+      onCreated={({ gl }) => {
+        gl.shadowMap.enabled = true;
+        gl.shadowMap.type = THREE.PCFShadowMap;
+      }}
     >
       <ambientLight intensity={0.45} />
       <directionalLight
@@ -18,9 +23,9 @@ export default function SceneCanvas() {
         shadow-mapSize-width={1024}
         shadow-mapSize-height={1024}
       />
-      <mesh castShadow receiveShadow position={[0, 0, 0]}>
-        <boxGeometry args={[1.5, 1.5, 1.5]} />
-        <meshStandardMaterial color="#e8f838" roughness={0.45} />
+      <mesh castShadow receiveShadow>
+        <boxGeometry args={[1, 1, 1]} />
+        <meshStandardMaterial color="orange" roughness={0.4} />
       </mesh>
       <OrbitControls enableDamping />
     </Canvas>
